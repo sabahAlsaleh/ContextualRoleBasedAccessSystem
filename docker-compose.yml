@@ -1,0 +1,25 @@
+services:
+
+  eventstoredb:
+    image: eventstore/eventstore:latest
+    container_name: eventstoredb
+    environment:
+      EVENTSTORE_RUN_PROJECTIONS: "All"
+      EVENTSTORE_START_STANDARD_PROJECTIONS: "true"
+      EVENTSTORE_INSECURE: "true"
+      EVENTSTORE_ENABLE_EXTERNAL_TCP: "true"
+      EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: "true"
+    volumes:
+      - eventstore-data:/var/lib/eventstore
+    ports:
+      - "2113:2113" # HTTP Port
+      - "1113:1113" # TCP Port
+    networks:
+      - esdb-network
+
+networks:
+  esdb-network:
+    driver: bridge
+
+volumes:
+  eventstore-data:
